@@ -102,8 +102,6 @@ void connect_mqtt() {
     if (client.connect(clientId,NULL,NULL,"/aussen/mode",0,false,"Offline")) {
       Serial.println("connected");
          
-      sPayload = "{\"mode\":\"Online\",";
-      sPayload += "\"RSSI\":" + String(WiFi.RSSI()) + "}";
       client.publish("/aussen/mode", "Online");                       // publish mode
       client.publish("/aussen/RSSI", String(WiFi.RSSI()).c_str());    // publish RSSI
      for (i=0;i<NoOfPins;i++) {                          // offset: relais are starting with one, pin array starts with index zero
