@@ -12,9 +12,10 @@ IPAddress ip(xx, xx, xx, xx);                             // IP address of this 
 IPAddress gateway(xx, xx, xx, xx);                       // IP address gateway (e.g. router)
 IPAddress subnet(255, 255, 255, 0);
 
-int const aRelayPin[8]={16,5,4,0,14,12,13,15};          // Array of used relay pins (GPIO)
-                                                        // GPIO: D0:16, D1:5, D2:4, D3:0, D5:14, D6:12, D7:13, D8:15
+int const aRelayPin[8]={16,5,4,0,2,14,12,13};           // Array of used relay pins (GPIO)
+                                                        // GPIO: D0:16, D1:5, D2:4, D3:0, D4:2, D5:14, D6:12, D7:13
                                                         // D4:2 = BUILDIN_LED
+
 int const NoOfPins = 8;
 
 #define MAXMIN (1000UL * 60 * 40)                       // max pump / valve ON time (40 min)
@@ -128,19 +129,19 @@ void connect_mqtt() {
 //--------------------------------------------------------------------------------------------------------------
 void setup() {
 
-  pinMode(BUILTIN_LED, OUTPUT);                             // Initialize the BUILTIN_LED pin as an output
-  digitalWrite(BUILTIN_LED, LOW);                           // Turn LED on
   Serial.begin(9600);
   Serial.println("start");
-
-  setup_wifi();
-  setup_web();
 
   for (i=0;i<NoOfPins;i++) {                                // Initialize Pins as inactive (OFF)
     digitalWrite(aRelayPin[i], HIGH);
     pinMode(aRelayPin[i], OUTPUT);
   }
 
+  digitalWrite(BUILTIN_LED, LOW);                           // Turn LED on
+  pinMode(BUILTIN_LED, OUTPUT);                             // Initialize the BUILTIN_LED pin as an output
+
+  setup_wifi();
+  setup_web();
   setup_mqtt();
 
   delay(2000);
